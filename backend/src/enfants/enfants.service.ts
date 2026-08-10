@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { PrismaService } from '../common/prisma/prisma.service';
 import { CreateEnfantDto } from './dto/create-enfant.dto';
-import { GroupeAge } from '@prisma/client';
+import { GroupeAge, RelationParent } from '@prisma/client';
 import { differenceInMonths } from 'date-fns';
 
 @Injectable()
@@ -49,7 +49,7 @@ export class EnfantsService {
     return this.prisma.enfant.update({ where: { id }, data: { actif: false, dateDepart: new Date() } });
   }
 
-  async lierParent(enfantId: string, parentId: string, relation: string, estCustodial = true) {
+  async lierParent(enfantId: string, parentId: string, relation: RelationParent, estCustodial = true) {
     const existing = await this.prisma.enfantParent.findUnique({ where: { enfantId_parentId: { enfantId, parentId } } });
     if (!existing) {
       const count = await this.prisma.enfantParent.count({ where: { enfantId } });

@@ -89,10 +89,10 @@ model Enfant {
 model EnfantParent {
   enfantId      String
   parentId      String
-  relation      String  // "mere", "pere", "tuteur", "grand-parent"
-  estCustodial  Boolean @default(true)
-  enfant        Enfant  @relation(fields: [enfantId], references: [id], onDelete: Cascade)
-  parent        Parent  @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  relation      RelationParent
+  estCustodial  Boolean        @default(true)
+  enfant        Enfant         @relation(fields: [enfantId], references: [id], onDelete: Cascade)
+  parent        Parent         @relation(fields: [parentId], references: [id], onDelete: Cascade)
 
   @@id([enfantId, parentId])
 }
@@ -264,6 +264,14 @@ model Rapport {
 }
 
 // ─── Enums ────────────────────────────────────────────────────────────────────
+enum RelationParent {
+  MERE
+  PERE
+  TUTEUR
+  GRAND_PARENT
+  AUTRE
+}
+
 enum TypeContribution {
   REDUIT   // contribution réduite (~$10/jour)
   PLEIN    // taux plein

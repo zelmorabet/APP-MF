@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../lib/api';
-import { Parent, TypeContribution } from '../types';
+import { Parent, TypeContribution, RELATION_PARENT_LABELS } from '../types';
 import { Plus, Search, Mail, Phone } from 'lucide-react';
 import toast from 'react-hot-toast';
 
@@ -58,7 +58,9 @@ export default function ParentsPage() {
               </div>
               {(parent as any).enfants?.length > 0 && (
                 <p className="text-xs text-gray-400 mt-1">
-                  Enfant(s) : {(parent as any).enfants.map((ep: any) => `${ep.enfant.prenom} ${ep.enfant.nom}`).join(', ')}
+                  Enfant(s) : {(parent as any).enfants.map((ep: any) =>
+                    `${ep.enfant.prenom} ${ep.enfant.nom} (${RELATION_PARENT_LABELS[ep.relation as keyof typeof RELATION_PARENT_LABELS] ?? ep.relation})`
+                  ).join(', ')}
                 </p>
               )}
             </div>
