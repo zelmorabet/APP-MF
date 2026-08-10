@@ -1,6 +1,7 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseGuards } from '@nestjs/common';
 import { EnfantsService } from './enfants.service';
 import { CreateEnfantDto } from './dto/create-enfant.dto';
+import { LierParentDto } from './dto/lier-parent.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @UseGuards(JwtAuthGuard)
@@ -34,11 +35,8 @@ export class EnfantsController {
   }
 
   @Post(':id/parents')
-  lierParent(
-    @Param('id') enfantId: string,
-    @Body() body: { parentId: string; relation: string; estCustodial?: boolean },
-  ) {
-    return this.service.lierParent(enfantId, body.parentId, body.relation, body.estCustodial);
+  lierParent(@Param('id') enfantId: string, @Body() dto: LierParentDto) {
+    return this.service.lierParent(enfantId, dto.parentId, dto.relation, dto.estCustodial);
   }
 
   @Delete(':id/parents/:parentId')

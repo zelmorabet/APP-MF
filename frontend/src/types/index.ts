@@ -1,5 +1,6 @@
 export type GroupeAge = 'POUPON' | 'BAMBIN' | 'PRESCOLAIRE' | 'SCOLAIRE';
 export type TypeContribution = 'REDUIT' | 'PLEIN' | 'EXONERE';
+export type RelationParent = 'MERE' | 'PERE' | 'TUTEUR' | 'GRAND_PARENT' | 'AUTRE';
 export type StatutPresence = 'PRESENT' | 'ABSENT' | 'ABSENT_JUSTIFIE' | 'CONGE_FERIE' | 'FERMETURE';
 export type StatutEntente = 'BROUILLON' | 'ENVOYEE_SIGNATURE' | 'SIGNEE' | 'EXPIREE' | 'ANNULEE';
 export type StatutFeuille = 'BROUILLON' | 'GENEREE' | 'ENVOYEE_BC' | 'CONFIRMEE_BC';
@@ -34,10 +35,18 @@ export interface Enfant {
 }
 
 export interface EnfantParent {
-  enfantId: string; parentId: string; relation: string;
+  enfantId: string; parentId: string; relation: RelationParent;
   estCustodial: boolean;
   enfant?: Enfant; parent?: Parent;
 }
+
+export const RELATION_PARENT_LABELS: Record<RelationParent, string> = {
+  MERE: 'Mère',
+  PERE: 'Père',
+  TUTEUR: 'Tuteur/Tutrice légal(e)',
+  GRAND_PARENT: 'Grand-parent',
+  AUTRE: 'Autre',
+};
 
 export interface ContactUrgence {
   id: string; enfantId: string; prenom: string; nom: string;
